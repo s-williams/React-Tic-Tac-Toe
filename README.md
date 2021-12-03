@@ -2,6 +2,10 @@
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
+https://reactjs.org/tutorial/tutorial.html#wrapping-up
+
+https://codepen.io/gaearon/pen/gWWZgR?editors=0010
+
 ## Available Scripts
 
 In the project directory, you can run:

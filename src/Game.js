@@ -1,4 +1,5 @@
 import React from 'react';
+import './style.css';
 
 function Square(props) {
   return (
@@ -95,6 +96,16 @@ class Game extends React.Component {
     });
   }
 
+  restart() {
+    this.jumpTo(0);
+  }
+
+  undo() {
+    if (this.state.stepNumber > 0) {
+      this.jumpTo(this.state.stepNumber - 1)
+    }
+  }
+
   jumpTo(step) {
     this.setState({
       stepNumber: step,
@@ -106,17 +117,6 @@ class Game extends React.Component {
     const history = this.state.history;
     const current = history[this.state.stepNumber];
     const winner = calculateWinner(current.squares);
-
-    const moves = history.map((step, move) => {
-      const desc = move ?
-        'Go to move #' + move :
-        'Go to game start';
-      return (
-        <li key={move}>
-          <button onClick={() => this.jumpTo(move)}>{desc}</button>
-        </li>
-      );
-    });
 
     let status;
     if (winner) {
@@ -135,7 +135,8 @@ class Game extends React.Component {
         </div>
         <div className="game-info">
           <div>{status}</div>
-          <ol>{moves}</ol>
+          <button onClick={() => this.undo()}>Undo</button>
+          <button onClick={() => this.restart()}>Restart</button>
         </div>
       </div>
     );

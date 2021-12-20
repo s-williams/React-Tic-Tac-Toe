@@ -73,7 +73,8 @@ class Game extends React.Component {
         }
       ],
       stepNumber: 0,
-      xIsNext: true
+      xIsNext: true,
+      isLocalMultiplayer: true,
     };
   }
 
@@ -85,6 +86,19 @@ class Game extends React.Component {
       return;
     }
     squares[i] = this.state.xIsNext ? "X" : "O";
+
+    // vs Computer mode
+    if (!this.state.isLocalMultiplayer && !calculateWinner(squares)) {
+      let done = false;
+      while (!done) {
+        let j = Math.floor(Math.random() * 9);
+        if (!squares[j]) {
+          squares[j] = "O";
+          done = true;
+        }
+      }
+    }
+
     this.setState({
       history: history.concat([
         {
@@ -92,7 +106,7 @@ class Game extends React.Component {
         }
       ]),
       stepNumber: history.length,
-      xIsNext: !this.state.xIsNext
+      xIsNext: this.state.isLocalMultiplayer ? !this.state.xIsNext : this.state.xIsNext
     });
   }
 
@@ -109,8 +123,15 @@ class Game extends React.Component {
   jumpTo(step) {
     this.setState({
       stepNumber: step,
-      xIsNext: (step % 2) === 0
+      xIsNext: this.state.isLocalMultiplayer ? (step % 2) === 0 : this.state.xIsNext,
     });
+  }
+
+  switchMultiplayer() {
+    this.setState({
+      isLocalMultiplayer: !this.state.isLocalMultiplayer
+    });
+    this.restart();
   }
 
   render() {
@@ -121,12 +142,22 @@ class Game extends React.Component {
     let status;
     if (winner) {
       status = "Winner: " + winner;
+    } else if (this.state.stepNumber === 9) {
+      status = "It's a draw"
     } else {
       status = "Next player: " + (this.state.xIsNext ? "X" : "O");
     }
 
+    let vsWho;
+    if (this.state.isLocalMultiplayer) {
+      vsWho = "vs Player";
+    } else {
+      vsWho = "vs Computer";
+    }
+
     return (
       <div className="game">
+        <div className="status">{status}</div>
         <div className="game-board">
           <Board
             squares={current.squares}
@@ -134,9 +165,9 @@ class Game extends React.Component {
           />
         </div>
         <div className="game-info">
-          <div>{status}</div>
           <button onClick={() => this.undo()}>Undo</button>
           <button onClick={() => this.restart()}>Restart</button>
+          <button onClick={() => this.switchMultiplayer()}>{vsWho}</button>
         </div>
       </div>
     );

@@ -21,11 +21,11 @@ body {
     background: #fff;
     border: 1px solid #999;
     float: left;
-    font-size: 2em;
+    font-size: 2.3em;
     font-weight: bold;
-    line-height: 2em;
-    height: 2em;
-    width: 2em;
+    line-height: 2.3em;
+    height: 2.3em;
+    width: 2.3em;
     margin-right: -1px;
     margin-top: -1px;
     padding: 0;
@@ -36,19 +36,16 @@ body {
     outline: none;
 }
 
+.square:focus-visible {
+    outline: #4791e6 solid 3px;
+}
+
 .header {
     text-align: center;
     background-color: #242424;
     padding: 1.5em;
     border-radius: 1em;
     margin-bottom: 1em;
-}
-
-.status {
-    margin-bottom: 1.5em;
-    margin-left: auto;
-    margin-right: auto;
-    text-align: center;
 }
 
 .game {
@@ -58,6 +55,18 @@ body {
     padding: 2em;
     border-radius: 1em;
     min-width: max-content;
+}
+
+.status {
+    margin-bottom: 1.5em;
+    margin-left: auto;
+    margin-right: auto;
+    text-align: center;
+}
+
+.game-board {
+    margin-left: auto;
+    margin-right: auto;
 }
 
 .game-info {
